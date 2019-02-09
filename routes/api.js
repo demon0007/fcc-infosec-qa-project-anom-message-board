@@ -54,8 +54,14 @@ module.exports = function (app) {
       findResult.toArray((err, array) => {
         if (err)
           res.send('Fetching Array')
-        else
-          res.json(array)
+        else {
+          let threadArray = []
+          array.forEach(thread => {
+            delete thread['delete_password']
+            delete thread['reported']
+            let sortedReplies = thread
+          })
+        }
       })
       
     })
