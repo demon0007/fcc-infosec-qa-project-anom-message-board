@@ -41,8 +41,8 @@ suite('Functional Tests', function() {
           assert.notProperty(res.body[0], 'reported')
           assert.property(res.body[0], 'text')
           assert.equal(res.body[0].text, 'This is stupid')
-          tid = '5c5eec4a532e3a450ca6cc8a'
-          pass = 'sasuke'
+          tid = res.body[0]._id
+          pass = res.body[0].delete_password
           // done()
         })
     });
@@ -60,34 +60,36 @@ suite('Functional Tests', function() {
         })
     });
     
-    suite('PUT', function() {
-      chai.request(server)
-        .put('/api/threads/test')
-        .send({thread_id: tid})
-        .end((req, res) => {
-          assert.equal(res.status, 200)
-          assert.equal(res.text, 'success')
-          // done()
-        })
-    });
-    });
+    // suite('PUT', function() {
+    //   chai.request(server)
+    //     .put('/api/threads/test')
+    //     .send({thread_id: tid})
+    //     .end((req, res) => {
+    //       assert.equal(res.status, 200)
+    //       assert.equal(res.text, 'success')
+    //       // done()
+    //     })
+    // });
+    // });
     
 
-  // });
+  });
   
   suite('API ROUTING FOR /api/replies/:board', function() {
     
     suite('POST', function() {
       chai.request(server)
-        .delete('/api/replies/test')
+        .post('/api/replies/Naruto')
         .send({
+          thread_id: '5c5eec4a532e3a450ca6cc8a',
           rid: 'rid',
           text: 'Test One',
           delete_password: 'Delete',
         })
         .end((req, res) => {
+          assert.equal()
           // assert.equal(res.status, 200)
-          assert.equal(res.text, 'success')
+          // assert.equal(res.text, 'success')
           // done()
         })
     });
