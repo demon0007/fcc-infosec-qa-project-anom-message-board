@@ -43,15 +43,19 @@ suite('Functional Tests', function() {
           assert.equal(res.body[0].text, 'This is stupid')
           tid = res.body[0]._id
           pass = res.body[0].delete_password
+          console.log(res.body)
+          console.log(tid)
           // done()
         })
     });
     
     suite('DELETE', function() {
+      let send = {thread_id: tid,"delete_password": pass}
       chai.request(server)
         .delete('/api/threads/test')
-        .send({thread_id: tid,"delete_password": pass})
+        .send(send)
         .end((req, res) => {
+          console.log(send)
           console.log(res.text)
           assert.equal(res.status, 200)
           assert.equal(res.text, 'success')
