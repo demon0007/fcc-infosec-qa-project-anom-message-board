@@ -89,9 +89,14 @@ module.exports = function (app) {
           {_id: ObjectId(tid), delete_password: pass},
           (err, success) => {
             if (err)
-              res.send('incorrect password')
-            else
-              res.send('success')
+              res.send('Error In Deleting Opration')
+            else {
+              // console.log(success)
+              if (success.result.n != 1)
+                res.send('incorrect password')
+              else
+                res.send('success')
+            }
           }
         )
       
