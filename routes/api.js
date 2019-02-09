@@ -168,9 +168,9 @@ module.exports = function (app) {
       var tid   = req.body.thread_id
       var rid   = req.body.reply_id
       var pass  = req.body.delete_password
-      
+      console.log(rid)
       DB.collection(board).findOneAndUpdate(
-        {_id: ObjectId(tid), 'replies': { _id: rid, delete_password: pass}},
+        {_id: ObjectId(tid), 'replies._id': rid, 'replies.delete_password': pass},
         {$set: { 'replies.$.text': '[deleted]' }},
         (err, success) => {
           if (err)
