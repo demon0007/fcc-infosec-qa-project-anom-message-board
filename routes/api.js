@@ -37,11 +37,16 @@ module.exports = function (app) {
       newThread['reported'] = false
       newThread['replies'] = []
       
+      if (req.body.hasOwnProperty('delete_password')) {
+        res.send('need password')
+        return
+      }
+    
       DB.collection(board).insert(newThread, (err, doc) => {
         if (err)
           res.send('Thread Insertion Error')
         else
-          res.redirect('/b/'+board)
+          res.redirect(301, '/b/'+board)
       })
       
     })
@@ -152,7 +157,7 @@ module.exports = function (app) {
             if (err)
               res.send('Error in Adding Reply')
             else
-              res.redirect('/b/'+board+'/'+rid)
+              res.redirect(301, '/b/'+board+'/'+rid)
           }
         )
       })
