@@ -37,7 +37,7 @@ module.exports = function (app) {
       newThread['reported'] = false
       newThread['replies'] = []
       
-      if (req.body.hasOwnProperty('delete_password')) {
+      if (!(req.body.hasOwnProperty('delete_password'))) {
         res.send('need password')
         return
       }
@@ -131,9 +131,10 @@ module.exports = function (app) {
     
     .post((req, res) => {
       let board = req.params.board
+      if (req.body.hasOwnProperty('thread_id') && req.body.hasOwnProperty('delete_password')) {
       let tid = ObjectId(req.body.thread_id)
       let rid
-      console.log('POST Request')
+      // console.log('POST Request')
       DB.collection(board).findOne({_id: tid}, (err, match) => {
         // console.log(match)
         rid = 'c'+match.replies.length
@@ -162,6 +163,12 @@ module.exports = function (app) {
         )
       })
       return
+      } else {
+        if (!(req.body.hasOwnProperty('thread_id')))
+          res.send('Invalid ID')
+        else
+          res.send('need a password')
+      }
     })
     
     .get((req, res) => {

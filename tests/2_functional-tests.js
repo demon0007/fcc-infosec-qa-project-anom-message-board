@@ -23,7 +23,7 @@ suite('Functional Tests', function () {
           .end(function (err, res) {
             // if (err) return console.log(err)
             assert.equal(err, null)
-            // expect(res).to.redirect
+            expect(res).to.redirect
             
             done()
           })
@@ -34,8 +34,8 @@ suite('Functional Tests', function () {
           .send({board: board, text: tText})
           .end(function (err, res) {
             // if (err) return console.log(err)
-            // assert.equal(res.text, 'need a password', 'needs error without password')
-            assert.equal()
+            assert.equal(res.text, 'need password', 'needs error without password')
+            // assert.equal()
             done()
           })
       })
@@ -54,7 +54,7 @@ suite('Functional Tests', function () {
             assert.property(res.body[0], 'board', 'Thread has a board')
             assert.property(res.body[0], 'text', 'Thread has text')
             assert.property(res.body[0], 'replies', 'Thread has replies')
-            testThID = res.redirects[0].split('id=')[1]
+            testThID = res.body[0]._id
             done()
           })
       })
@@ -80,7 +80,7 @@ suite('Functional Tests', function () {
           .end(function (err, res) {
             // if (err) return console.log(err)
             assert.equal(res.status, 200, 'Server response')
-            assert.equal(res.text, 'Invalid ID')
+            assert.equal(res.text, 'Thread Not Found')
             done()
           })
       })
