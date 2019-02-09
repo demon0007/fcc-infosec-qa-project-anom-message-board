@@ -46,6 +46,20 @@ module.exports = function (app) {
       
     })
     
+    .get((req, res) => {
+      let board = req.params.board
+      
+      let findResult = DB.collection(board).find({}).sort({bumped_on: -1}).limit(10)
+      
+      findResult.toArray((err, array) => {
+        if (err)
+          res.send('Fetching Array')
+        else
+          res.json(array)
+      })
+      
+    })
+    
   app.route('/api/replies/:board')
     
     .post((req, res) => {
