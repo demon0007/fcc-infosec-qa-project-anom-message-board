@@ -53,31 +53,33 @@ module.exports = function (app) {
       let tid = ObjectId(req.body.thread_id)
       let rid
       console.log('POST Request')
-      DB.collectoion(board).findOne()
-      
-      let newReply = {
-        _id: rid,
-        text: req.body.text,
-        created_on: new Date(),
-        delete_password: req.body.delete_password,
-        reported: false
-      }
-      
-      let update = {
-        $set: {bumped_on: new Date()},
-        $push: {replies: newReply}
-      }
-      
-      DB.collection(board).findOneAndModify(
-        {_id: tid},
-        update,
-        (err, doc) => {
-          if (err)
-            res.send('Error in Adding Reply')
-          else
-            res.redirect('/b/'+board+'/'+rid)
+      DB.collection(board).findOne({_id: ObjectId(tid)}, (err, match) => {
+        console.log(match)
+        rid = 'c'+match.replies.length
+        let newReply = {
+          _id: rid,
+          text: req.body.text,
+          created_on: new Date(),
+          delete_password: req.body.delete_password,
+          reported: false
         }
-      )
+
+        let update = {
+          $set: {bumped_on: new Date()},
+          $push: {replies: newReply}
+        }
+
+        DB.collection(board).findOneAndUpdate(
+          {_id: tid},
+          update,
+          (err, doc) => {
+            if (err)
+              res.send('Error in Adding Reply')
+            else
+              res.redirect('/b/'+board+'/'+rid)
+          }
+        )
+      })
     })
 
 };
