@@ -17,7 +17,7 @@ app.use(helmet.frameguard())
 app.use(helmet.dnsPrefetchControl())
 app.use(helmet.contentSecurityPolicy({
   directives: {
-    defaultSrc: ["'self'"],
+    defaultSrc: ["'self'", 'code.jquery.com'],
     styleSrc: ["'self'"]
   }
 }))
