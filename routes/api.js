@@ -108,8 +108,8 @@ module.exports = function (app) {
       let tid = ObjectId(req.body.thread_id)
       let rid
       console.log('POST Request')
-      DB.collection(board).findOne({_id: ObjectId(tid)}, (err, match) => {
-        console.log(match)
+      DB.collection(board).findOne({_id: tid}, (err, match) => {
+        // console.log(match)
         rid = 'c'+match.replies.length
         let newReply = {
           _id: rid,
