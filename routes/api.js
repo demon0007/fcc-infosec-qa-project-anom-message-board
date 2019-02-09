@@ -58,7 +58,8 @@ module.exports = function (app) {
           let threadArray = array.map(thread => {
             delete thread['delete_password']
             delete thread['reported']
-            thread[..]
+            thread['bumped_on'] = new Date(thread['bumped_on']).toString()
+            thread['bumped_on'] = new Date(thread['bumped_on']).toString()
             let sortedReplies = thread.replies.sort((a, b) => {
               return new Date(b.created_on) -  new Date(a.created_on)
             })
