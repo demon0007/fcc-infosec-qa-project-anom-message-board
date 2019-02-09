@@ -8,8 +8,9 @@
 
 'use strict';
 
-var expect = require('chai').expect;
+var expect      = require('chai').expect;
 var mongoClient = require('mongodb').MongoClient
+var ObjectId    = require('mongodb').ObjectId
 const CONN = process.env.DB
 var DB
 
@@ -49,10 +50,10 @@ module.exports = function (app) {
     
     .post((req, res) => {
       let board = req.params.board
-      let tid = req.body.thread_id
-      
+      let tid = ObjectId(req.body.thread_id)
+      let rid
       let newReply = {
-        _id: '',
+        _id: rid,
         text: req.body.text,
         created_on: new Date(),
         delete_password: req.body.delete_password,
@@ -71,7 +72,7 @@ module.exports = function (app) {
           if (err)
             res.send('Error in Adding Reply')
           else
-            res.redirect('/b/'+board+'/')
+            res.redirect('/b/'+board+'/'+rid)
         }
       )
     })
