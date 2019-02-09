@@ -112,7 +112,7 @@ module.exports = function (app) {
         // console.log(match)
         rid = 'c'+match.replies.length
         let newReply = {
-          _id: rid,
+          rid: rid,
           text: req.body.text,
           created_on: new Date(),
           delete_password: req.body.delete_password,
@@ -171,7 +171,7 @@ module.exports = function (app) {
       var pass  = req.body.delete_password
       console.log(rid)
       DB.collection(board).findOneAndUpdate(
-        {_id: ObjectId(tid), 'replies.delete_password': pass, 'replies._id': rid},
+        {_id: ObjectId(tid), 'replies.delete_password': pass, 'replies.rid': rid},
         {$set: { 'replies.$.text': '[deleted]' }},
         (err, success) => {
           if (err)
