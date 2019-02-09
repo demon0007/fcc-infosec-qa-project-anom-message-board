@@ -77,6 +77,27 @@ module.exports = function (app) {
           }
         })
       })
+  
+    .put((req, res) => {
+      var board = req.params.board
+      var tid   = req.body.thread_id
+      
+      DB.collection(board).findOneAndUpdate(
+        {_id: ObjectId(tid)},
+        {$set: {reported: true}},
+        (err, success) => {
+          if (err)
+            res.send('Error in Updating Operation')
+          else {
+            if (success.lastErrorObject.updatedExisting) 
+              res.send('success')
+            else
+              res.send('Thread Not Found')
+          }
+        }
+      )
+      
+    })
     
     .delete((req, res) => {
       var board = req.params.board
