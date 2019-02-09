@@ -183,16 +183,17 @@ module.exports = function (app) {
               res.send('Error In Fetching Replies')
             else
               // console.log(match)
-              res.json(match.replies.map(reply => {
+              match.replies = match.replies.map(reply => {
                 delete reply['delete_password']
                 delete reply['reported']
                 reply['created_on'] = new Date(reply['created_on']).toString()
                 return reply
-              }))
+              })
+              res.json(match)
           }
         )
       } else {
-        res.send('Usage: /api/replies/'+board+'?thread_id={thread_id}')
+        res.send('Invalid ID')
       }
       
     })

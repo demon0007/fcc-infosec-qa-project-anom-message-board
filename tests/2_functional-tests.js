@@ -126,9 +126,10 @@ suite('Functional Tests', function () {
       test('Get thread and replies', function (done) {
         chai.request(server)
           .get('/api/replies/test')
-          .send({thread_id: testThID})
+          .send({thread_id: testThID?testThID:'5c5eec4a532e3a450ca6cc8a'})
           .end(function (err, res) {
             // if (err) return console.log(err)
+            console.log(testThID)
             assert.equal(res.status, 200, 'Server response')
             assert.property(res.body, 'created_on', 'Thread has created date')
             assert.property(res.body, 'bumped_on', 'Thread has a bumped date')
@@ -138,7 +139,7 @@ suite('Functional Tests', function () {
             assert.isAbove(res.body.replies.length, 0, 'Response contains replies')
             assert.property(res.body.replies[0], 'text', 'Reply has text')
             assert.property(res.body.replies[0], 'created_on', 'Reply has a created date')
-            testReID = res.body.replies[0]._id
+            testReID = res.body.replies[0]._id?res.body.replies[0]._id:'c0'
             done()
           })
       })
