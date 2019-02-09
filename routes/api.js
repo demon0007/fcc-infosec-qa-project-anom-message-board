@@ -135,6 +135,7 @@ module.exports = function (app) {
           }
         )
       })
+      return
     })
     
     .get((req, res) => {
@@ -170,8 +171,8 @@ module.exports = function (app) {
       var pass  = req.body.delete_password
       console.log(rid)
       DB.collection(board).findOneAndUpdate(
-        {_id: ObjectId(tid), 'replies._id': rid, 'replies.delete_password': pass},
-        {$set: { 'replies.$.text': '[deleted]' }},
+        {_id: ObjectId(tid), 'replies.delete_password': pass, 'replies._id': rid},
+        {$set: { 'replies.$$.text': '[deleted]' }},
         (err, success) => {
           if (err)
             res.send('Error in Updating Function')
