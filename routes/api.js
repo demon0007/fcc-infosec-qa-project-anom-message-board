@@ -171,7 +171,9 @@ module.exports = function (app) {
       var rid   = req.body.reply_id
       var pass  = req.body.delete_password
       
-      
+      DB.collection(board).findOneAndUpdate(
+        {_id: ObjectId(tid), }
+      )
       
     })
 
