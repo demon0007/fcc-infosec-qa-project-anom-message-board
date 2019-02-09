@@ -58,6 +58,7 @@ module.exports = function (app) {
           let threadArray = array.map(thread => {
             delete thread['delete_password']
             delete thread['reported']
+            thread[..]
             let sortedReplies = thread.replies.sort((a, b) => {
               return new Date(b.created_on) -  new Date(a.created_on)
             })
@@ -116,15 +117,25 @@ module.exports = function (app) {
       var board = req.params.board
       var tid = req.query.thread_id
       
-      DB.collection(board).findOne(
-        {thread_id: ObjectId(tid)},
-        (err, match) => {
-          if (err)
-            res.send('Error In Fetching Replies')
-          else
-            res.json(match.replies)
-        }
-      )
+      if (req.query.hasOwnProperty('thread_id')) {
+        DB.collection(board).findOne(
+          {_id: ObjectId(tid)},
+          (err, match) => {
+            if (err)
+              res.send('Error In Fetching Replies')
+            else
+              // console.log(match)
+              res.json(match.replies.map(reply => {
+                delete reply['delete_password']
+                delete reply['reported']
+                return reply
+              }))
+          }
+        )
+      } else {
+        res.send('Usage: /api/replies/'+board+'?thread_id={thread_id}')
+      }
+      
     })
 
 };
