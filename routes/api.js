@@ -172,7 +172,7 @@ module.exports = function (app) {
       console.log(rid)
       DB.collection(board).findOneAndUpdate(
         {_id: ObjectId(tid), 'replies.delete_password': pass, 'replies._id': rid},
-        {$set: { 'replies.$$.text': '[deleted]' }},
+        {$set: { 'replies.$.text': '[deleted]' }},
         (err, success) => {
           if (err)
             res.send('Error in Updating Function')
