@@ -59,7 +59,7 @@ module.exports = function (app) {
             delete thread['delete_password']
             delete thread['reported']
             thread['bumped_on'] = new Date(thread['bumped_on']).toString()
-            thread['bumped_on'] = new Date(thread['bumped_on']).toString()
+            thread['created_on'] = new Date(thread['created_on']).toString()
             let sortedReplies = thread.replies.sort((a, b) => {
               return new Date(b.created_on) -  new Date(a.created_on)
             })
@@ -67,16 +67,18 @@ module.exports = function (app) {
             sortedReplies = sortedReplies.map(reply => {
               delete reply['delete_password']
               delete reply['reported']
+              reply['bumped_on'] = new Date(reply['bumped_on']).toString()
+              reply['created_on'] = new Date(reply['created_on']).toString()
               return reply
             })
             thread['replies'] = sortedReplies.slice(0, 3)
             return thread
           })
           res.json(threadArray)
-        }
+          }
+        })
       })
-      
-    })
+  
     
   app.route('/api/replies/:board')
     
@@ -129,6 +131,8 @@ module.exports = function (app) {
               res.json(match.replies.map(reply => {
                 delete reply['delete_password']
                 delete reply['reported']
+                reply['bumped_on'] = new Date(reply['bumped_on']).toString()
+                reply['created_on'] = new Date(reply['created_on']).toString()
                 return reply
               }))
           }
