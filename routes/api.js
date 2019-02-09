@@ -33,14 +33,14 @@ module.exports = function (app) {
       
       newThread['created_on'] = new Date()
       newThread['bumped_on'] = new Date()
-      newThread['reported'] = true
+      newThread['reported'] = false
       newThread['replies'] = []
       
       DB.collection(board).insert(newThread, (err, doc) => {
         if (err)
           res.send('Thread Insertion Error')
         else
-          res.redirect('/api/threads/'+board)
+          res.redirect('/b/'+board)
       })
       
     })
@@ -49,9 +49,31 @@ module.exports = function (app) {
     
     .post((req, res) => {
       let board = req.params.board
+      let tid = req.body.thread_id
+      
       let newReply = {
-        _id: req.body.thread_id,
-        text: req.body}
+        _id: '',
+        text: req.body.text,
+        created_on: new Date(),
+        delete_password: req.body.delete_password,
+        reported: false
+      }
+      
+      let update = {
+        $set: {bumped_on: new Date()},
+        $push: {replies: newReply}
+      }
+      
+      DB.collection(board).findOneAndModify(
+        {_id: tid},
+        update,
+        (err, doc) => {
+          if (err)
+            res.send('Error in Adding Reply')
+          else
+            res.redirect('/b/'+board+'/')
+        }
+      )
     })
 
 };
