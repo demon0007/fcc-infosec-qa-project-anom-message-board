@@ -55,20 +55,22 @@ module.exports = function (app) {
         if (err)
           res.send('Fetching Array')
         else {
-          let threadArray = []
-          array.forEach(thread => {
+          let threadArray = array.map(thread => {
             delete thread['delete_password']
             delete thread['reported']
             let sortedReplies = thread.replies.sort((a, b) => {
               return new Date(b.created_on) -  new Date(a.created_on)
             })
+            // console.log()
             sortedReplies = sortedReplies.map(reply => {
               delete reply['delete_password']
               delete reply['reported']
               return reply
             })
             thread['replies'] = sortedReplies.slice(0, 3)
+            return thread
           })
+          res.json(threadArray)
         }
       })
       
@@ -108,6 +110,21 @@ module.exports = function (app) {
           }
         )
       })
+    })
+    
+    .get((req, res) => {
+      var board = req.params.board
+      var tid = req.query.thread_id
+      
+      DB.collection(board).findOne(
+        {thread_id: ObjectId(tid)},
+        (err, match) => {
+          if (err)
+            res.send('Error In Fetching Replies')
+          else
+            res.json(match.replies)
+        }
+      )
     })
 
 };
