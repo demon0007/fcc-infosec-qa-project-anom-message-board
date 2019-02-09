@@ -182,6 +182,8 @@ module.exports = function (app) {
             if (err)
               res.send('Error In Fetching Replies')
             else
+              delete match['delete_password']
+              delete match['reported']
               // console.log(match)
               match.replies = match.replies.map(reply => {
                 delete reply['delete_password']

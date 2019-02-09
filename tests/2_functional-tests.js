@@ -125,8 +125,8 @@ suite('Functional Tests', function () {
     suite('GET', function () {
       test('Get thread and replies', function (done) {
         chai.request(server)
-          .get('/api/replies/test')
-          .send({thread_id: testThID?testThID:'5c5eec4a532e3a450ca6cc8a'})
+          .get('/api/replies/Naruto')
+          .query({thread_id: '5c5eec4a532e3a450ca6cc8a'})
           .end(function (err, res) {
             // if (err) return console.log(err)
             console.log(testThID)
@@ -160,7 +160,7 @@ suite('Functional Tests', function () {
       test('Report Thread', function (done) {
         chai.request(server)
           .put('/api/replies/test')
-          .send({thread_id: testThID, reply_id: testReID})
+          .send({thread_id: '5c5eec4a532e3a450ca6cc8a', reply_id: 'c1'})
           .end(function (err, res) {
             // if (err) return console.log(err)
             assert.equal(res.status, 200, 'Server response')
