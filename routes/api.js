@@ -59,7 +59,15 @@ module.exports = function (app) {
           array.forEach(thread => {
             delete thread['delete_password']
             delete thread['reported']
-            let sortedReplies = thread
+            let sortedReplies = thread.replies.sort((a, b) => {
+              return new Date(b.created_on) -  new Date(a.created_on)
+            })
+            sortedReplies = sortedReplies.map(reply => {
+              delete reply['delete_password']
+              delete reply['reported']
+              return reply
+            })
+            thread['replies'] = sortedReplies.slice(0, 3)
           })
         }
       })
