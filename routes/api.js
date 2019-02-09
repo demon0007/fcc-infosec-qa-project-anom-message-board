@@ -209,5 +209,29 @@ module.exports = function (app) {
       )
       
     })
+  
+    .put((req, res) => {
+      var board = req.params.board
+      var tid   = req.body.thread_id
+      var rid   = req.body.reply_id
+      
+      DB.collection(board).findOneAndUpdate(
+        {_id: ObjectId(tid), 'replies.rid': rid},
+        {$set: {'replies.$.reported': true}},
+        (err, success) => {
+          if (err)
+            res.send('Error in Updating Function')
+          else {
+            if ( success.lastErrorObject.updatedExisting ) {
+              // console.log(success.lastErrorObject.updatedExisting)
+              res.send('success')
+            } else {
+              res.send('incorrect password')
+            }
+          }
+        }
+      )
+      
+    })
 
 };
