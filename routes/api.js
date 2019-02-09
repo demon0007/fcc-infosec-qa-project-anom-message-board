@@ -164,5 +164,15 @@ module.exports = function (app) {
       }
       
     })
+  
+    .delete((req, res) => {
+      var board = req.params.board
+      var tid   = req.body.thread_id
+      var rid   = req.body.reply_id
+      var pass  = req.body.delete_password
+      
+      
+      
+    })
 
 };
