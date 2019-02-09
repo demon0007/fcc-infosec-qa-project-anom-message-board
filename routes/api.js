@@ -68,7 +68,6 @@ module.exports = function (app) {
               delete reply['delete_password']
               delete reply['reported']
               reply['bumped_on'] = new Date(reply['bumped_on']).toString()
-              reply['created_on'] = new Date(reply['created_on']).toString()
               return reply
             })
             thread['replies'] = sortedReplies.slice(0, 3)
@@ -154,7 +153,6 @@ module.exports = function (app) {
                 delete reply['delete_password']
                 delete reply['reported']
                 reply['bumped_on'] = new Date(reply['bumped_on']).toString()
-                reply['created_on'] = new Date(reply['created_on']).toString()
                 return reply
               }))
           }
@@ -172,7 +170,20 @@ module.exports = function (app) {
       var pass  = req.body.delete_password
       
       DB.collection(board).findOneAndUpdate(
-        {_id: ObjectId(tid), }
+        {_id: ObjectId(tid), 'replies._id': rid, 'replies.delete_password': pass},
+        {$set: { 'replies.$.text': '[deleted]' }},
+        (err, success) => {
+          if (err)
+            res.send('Error in Updating Function')
+          else {
+            if ( true) {
+              console.log(success)
+              res.json('success')
+            } else {
+              res.json(success)
+            }
+          }
+        }
       )
       
     })
