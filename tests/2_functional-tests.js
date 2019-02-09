@@ -20,14 +20,14 @@ suite('Functional Tests', function() {
 
   suite('API ROUTING FOR /api/threads/:board', function() {
     
-    suite('POST', function() {
+    suite('POST', function(done) {
       chai.request(server)
         .post('/api/threads/test')
         .send({"board":"hero","text":"This is stupid","delete_password":"black"})
         .end((req, res) => {
           assert.equal(res.status, 200)
           // res.should.redirectTo('/b/test')
-          // done()
+          done()
         })
     });
     
