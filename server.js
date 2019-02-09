@@ -15,10 +15,12 @@ var app = express();
 
 app.use(helmet.frameguard())
 app.use(helmet.dnsPrefetchControl())
+
 app.use(helmet.contentSecurityPolicy({
   directives: {
-    defaultSrc: ["'self'", 'code.jquery.com'],
-    styleSrc: ["'self'"]
+    defaultSrc: ["'self'", 'code.jquery.com', 'https://hyperdev.com', 'http://glitch.com', 'https://noop.style/css'],
+    'script-src': ["'self'", "code.jquery.com", 'http://glitch.com', "'unsafe-inline'"],
+    styleSrc: ["'self'", 'https://yummy-packet.glitch.me', "'unsafe-inline'"]
   }
 }))
 
