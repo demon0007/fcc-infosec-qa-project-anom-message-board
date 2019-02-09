@@ -103,7 +103,7 @@ module.exports = function (app) {
       var board = req.params.board
       var tid   = req.body.thread_id
       var pass  = req.body.delete_password
-      
+      console.log(req.body)
       DB.collection(board)
         .remove(
           {_id: ObjectId(tid), delete_password: pass},
