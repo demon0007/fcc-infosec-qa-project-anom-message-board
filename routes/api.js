@@ -33,11 +33,25 @@ module.exports = function (app) {
       
       newThread['created_on'] = new Date()
       newThread['bumped_on'] = new Date()
+      newThread['reported'] = true
+      newThread['replies'] = []
       
-      // db.collection(board).insert()
+      DB.collection(board).insert(newThread, (err, doc) => {
+        if (err)
+          res.send('Thread Insertion Error')
+        else
+          res.redirect('/api/threads/'+board)
+      })
       
     })
     
-  app.route('/api/replies/:board');
+  app.route('/api/replies/:board')
+    
+    .post((req, res) => {
+      let board = req.params.board
+      let newReply = {
+        _id: req.body.thread_id,
+        text: req.body}
+    })
 
 };
