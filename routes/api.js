@@ -52,6 +52,9 @@ module.exports = function (app) {
       let board = req.params.board
       let tid = ObjectId(req.body.thread_id)
       let rid
+      
+      DB.collectoion(board).findOne()
+      
       let newReply = {
         _id: rid,
         text: req.body.text,
