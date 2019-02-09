@@ -52,7 +52,7 @@ module.exports = function (app) {
       let board = req.params.board
       let tid = ObjectId(req.body.thread_id)
       let rid
-      
+      console.log('POST Request')
       DB.collectoion(board).findOne()
       
       let newReply = {
