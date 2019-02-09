@@ -21,11 +21,23 @@ suite('Functional Tests', function() {
       chai.request(server)
         .post('/api/threads/test')
         .send({"board":"hero","text":"This is stupid","delete_password":"black"})
-        .e
+        .end((req, res) => {
+          assert.equal(res.status, 200)
+          res.should.redirectTo('/b/hero')
+        })
     });
     
     suite('GET', function() {
-      
+      chai.request(server)
+        .get('/api/threads/test')
+        .end((req, res) => {
+          assert.equal(res.status, 200)
+          assert.isArray(res.body)
+          assert.isArray(res.body[0].replies)
+          assert.notProperty(res.body[0], 'reported')
+          assert.property(res.body[0], 'text')
+          assert.equal(res.body[0].text, 'This is stupid')
+        })
     });
     
     suite('DELETE', function() {
