@@ -13,6 +13,8 @@ var server = require('../server');
 
 chai.use(chaiHttp);
 
+let tid
+
 suite('Functional Tests', function() {
 
   suite('API ROUTING FOR /api/threads/:board', function() {
@@ -22,8 +24,9 @@ suite('Functional Tests', function() {
         .post('/api/threads/test')
         .send({"board":"hero","text":"This is stupid","delete_password":"black"})
         .end((req, res) => {
-          assert.equal(res.status, 200)
-          res.should.redirectTo('/b/hero')
+          // assert.equal(res.status, 200)
+          res.should.redirectTo('/b/test')
+          done()
         })
     });
     
@@ -37,15 +40,33 @@ suite('Functional Tests', function() {
           assert.notProperty(res.body[0], 'reported')
           assert.property(res.body[0], 'text')
           assert.equal(res.body[0].text, 'This is stupid')
+          tid = res.body[0]._id
+          done()
         })
     });
     
     suite('DELETE', function() {
-      
+      chai.request(server)
+        .delete('/api/threads/test')
+        .send({thread_id: tid,"delete_password":"black"})
+        .end((req, res) => {
+          assert.equal(res.status, 200)
+          assert.equal(res.text, 'success')
+          tid = '5c5eec4a532e3a450ca6cc8a'
+          done()
+        })
     });
     
     suite('PUT', function() {
-      
+      chai.request(server)
+        .put('/api/threads/test')
+        .send({thread_id: tid})
+        .end((req, res) => {
+          assert.equal(res.status, 200)
+          assert.equal(res.text, 'success')
+          done()
+        })
+    });
     });
     
 
@@ -54,19 +75,30 @@ suite('Functional Tests', function() {
   suite('API ROUTING FOR /api/replies/:board', function() {
     
     suite('POST', function() {
-      
+      chai.request(server)
+        .delete('/api/replies/test')
+        .send({
+          rid: 'rid',
+          text: 'Test One',
+          delete_password: 'Delete',
+        })
+        .end((req, res) => {
+          // assert.equal(res.status, 200)
+          assert.equal(res.text, 'success')
+          done()
+        })
     });
     
     suite('GET', function() {
-      
+      done()
     });
     
     suite('PUT', function() {
-      
+      done()
     });
     
     suite('DELETE', function() {
-      
+      done()
     });
     
   });
