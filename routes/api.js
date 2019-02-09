@@ -78,7 +78,24 @@ module.exports = function (app) {
           }
         })
       })
-  
+    
+    .delete((req, res) => {
+      var board = req.params.board
+      var tid   = req.body.thread_id
+      var pass  = req.body.delete_password
+      
+      DB.collection(board)
+        .remove(
+          {_id: ObjectId(tid), delete_password: pass},
+          (err, success) => {
+            if (err)
+              res.send('incorrect password')
+            else
+              res.send('success')
+          }
+        )
+      
+    })
     
   app.route('/api/replies/:board')
     

@@ -122,6 +122,7 @@
         });
         $('#deleteThread').submit(function(e){
           var url = "/api/threads/"+$('#board3').val();
+          console.log(url)
           $.ajax({
             type: "DELETE",
             url: url,
